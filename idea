@@ -1,0 +1,31 @@
+function BB(ch, x0, y0, x1, y1) {
+	this.ch = ch
+	this.x0 = x0;
+	this.y0 = y0;
+	this.x1 = x1;
+	this.y1 = y1;
+
+	this.intersects = function(bb) {
+		if (bb.x0 >= x1 || bb.y0 >= y1 || bb.x1 <= x0 || bb.y1 <= y0)
+			return false;
+		return true;
+	}
+}
+
+function Hitbox(ch, w, h) {
+	this.ch = ch
+	this.w = w;
+	this.h = h;
+	var generateBB = function() {
+		return new BB(this, ch.owner.pos.x - this.w / 2, ch.owner.y - this.pos.h / 2,
+			ch.owner.pos.x + this.w / 2, ch.owner.pos.y + this.h / 2);
+	}
+}
+
+function CollisionHandler(owner, blocks, onIntersect, collidesWith, onCollide) {
+	this.owner = owner;
+	this.blocks = blocks;
+	this.onIntersect = onIntersect;
+	this.collidesWith = collidesWith;
+	this.onCollide = onCollide;
+}
