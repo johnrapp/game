@@ -4,13 +4,11 @@ var Level = Class.extend({
 		this.height = h;
 		this.entities = [];
 
-		this.canvas = $(canvases[LEVEL_CANVAS]);
-		this.context = canvases[LEVEL_CANVAS].getContext('2d');
-		this.entityContext = canvases[ENTITY_CANVAS].getContext('2d');
+		this.levelCanvas = canvases[LEVEL_CANVAS];
+		this.entityCanvas = canvases[ENTITY_CANVAS];
 		this.xScroll = (width - this.width) / 2;
 		this.yScroll = (height - this.height) / 2;
-		this.canvas.css('left', this.xScroll + 'px');
-		this.canvas.css('top', this.yScroll + 'px');
+		this.levelCanvas.move(this.xScroll, this.yScroll);
 	},
 	prepare: function() {
 		this.player = this.addEntity(new Player(this.width / 2, this.height / 2));
@@ -21,7 +19,7 @@ var Level = Class.extend({
 			var angle = i * ((Math.PI * 2) / amount);
 			this.addEntity(new HostileMob(this.player.pos.x + Math.cos(angle) * distance, this.player.pos.y + Math.sin(angle) * distance));
 		}
-		
+
 		this.addEntity(new Entity(this.width / 2, this.height, this.width, 0, TEAM_NEUTRAL));
 		this.addEntity(new Entity(this.width, this.height / 2, 0, this.height, TEAM_NEUTRAL));
 		this.addEntity(new Entity(this.width / 2, 0, this.width, 0, TEAM_NEUTRAL));
@@ -34,7 +32,7 @@ var Level = Class.extend({
 			for(var y = 0; y < amount; y++) {
 				round = !round;
 				var color = round ? '#444' : '#555';
-				rect(this.context, Math.floor(x * (this.width / amount)), Math.floor(y * (this.height / amount)),
+				rect(this.levelCanvas.context, Math.floor(x * (this.width / amount)), Math.floor(y * (this.height / amount)),
 					(this.width / amount), (this.height / amount), color);
 			}
 		}
@@ -81,14 +79,12 @@ var Level = Class.extend({
 			this.yScroll = 0;
 		if(this.yScroll < height - this.height)
 			this.yScroll = height - this.height;
-
-		this.canvas.css('left', this.xScroll + 'px');
-		this.canvas.css('top', this.yScroll + 'px');
+		this.levelCanvas.move(this.xScroll, this.yScroll);
 	},
 	render: function() {
-		clear(this.entityContext);
+		clear(this.entityCanvas.context);
 		for (var i = 0; i < this.entities.length; i++) {
-			this.entities[i].render(this.entityContext, this);
+			this.entities[i].render(this.entityCanvas.context, this);
 		}
 	}
 });

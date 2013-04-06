@@ -40,29 +40,30 @@ var Player = Mob.extend({
 	},
 	finalMove: function(level, xa, ya) {
 		this._super(level, xa, ya);
-		var maxDist = 100;
-		var scroll = false;
+		var scroll = false, maxDist = 150;
 		if(xa != 0) {
-			var scrollLeft = (width / 2 - this.pos.x + level.xScroll) > maxDist;
-			var scrollRight = (width / 2  - level.width - this.pos.x + level.xScroll) > maxDist;
+			var halfWidth = width / 2;
+			var dist = halfWidth - this.pos.x - level.xScroll;
+			var scrollLeft = -dist > (halfWidth - maxDist);
+			var scrollRight = dist > (halfWidth - maxDist);
 			if(scrollLeft || scrollRight) {
 				scroll = true;
 				if((scrollLeft && xa < 0) || (scrollRight && xa > 0))
 					xa = 0;
 			}
-			
 		}
 		if(ya != 0) {
-			var scrollUp = (level.height - maxDist - this.pos.y + level.yScroll) >= maxDist;
-			var scrollDown = (this.pos.y - maxDist + level.yScroll) >= maxDist;
+			var halfHeight = height / 2;
+			var dist = halfHeight - level.height + this.pos.y - level.yScroll;
+			var scrollDown = dist > (halfHeight - maxDist);
+			var scrollUp = -dist > (halfHeight - maxDist);
 			if(scrollUp || scrollDown) {
 				scroll = true;
 				if((scrollDown && ya < 0) || (scrollUp && ya > 0))
 					ya = 0;
 			}
 		}
-		if(scroll)
-			level.scroll(-xa, ya);
+		if(scroll) level.scroll(-xa, ya);
 	},
 	collide: function(other, xa, ya) {
 		this._super(other, xa, ya);

@@ -82,11 +82,9 @@ var Entity = Class.extend({
 					var yld = to.y1 - from.y0;
 					if (yld <= 0 && ya < yld) {
 						closest = to;
-						//if(bouncesOf(to)){
 						ya = yld;
 						if (ya > 0)
 							ya = 0;
-						//}
 					}
 				}
 			}
@@ -108,7 +106,7 @@ var Entity = Class.extend({
 		this.pos.y += ya;
 	},
 	collidesWith: function(other) {
-		return this.team != other.team;
+		return true;
 	},
 	isEnemyOf: function(other) {
 		return this.team != other.team && other.team != TEAM_NEUTRAL;
@@ -118,47 +116,6 @@ var Entity = Class.extend({
 		this.yd += ya * 0.4;
 	}
 });
-
-function Vector (x, y, w, h) {
-	this.x = x;
-	this.y = y;
-	this.w = w;
-	this.h = h;
-
-	this.copy = function() {
-		return new Vector(this.x, this.y, this.w, this.h);
-	}
-
-	this.distSqrt = function(to) {
-		var xd = this.x - to.x;
-		var yd = this.y - to.y;
-		return xd * xd + yd * yd;
-	}
-
-	this.dist = function(pos) {
-		return Math.sqrt(this.distSqrt(pos));
-	}
-
-	this.left = function() {
-		return this.x - this.w / 2;
-	}
-
-	this.top = function() {
-		return this.y - this.h / 2;
-	}
-
-	this.right = function() {
-		return this.x + this.w / 2;
-	}
-
-	this.bottom = function() {
-		return this.y + this.h / 2;
-	}
-
-	this.toString = function() {
-		return this.x + ', ' + this.y;
-	}
-}
 
 function BB(owner, x0, y0, x1, y1) {
 	this.owner = owner;
