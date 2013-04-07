@@ -1,5 +1,6 @@
 var dir = 'res/'
 var sources = ['player.png'], images = [];
+var PLAYER_IMAGE = 0;
 
 $(document).ready(function() {
 	for(var i in sources) {
@@ -21,13 +22,16 @@ var SpriteSheet = function(image, sw, sh) {
 	var image = image;
 	var sw = sw;
 	var sh = sh;
-	this.lenght = image.width / sw;
+	this.length = image.width / sw;
 	this.height = image.height / sh;
+	this.getSprite = function(x, y) {
+		return new Sprite(image, x * sw, y * sh, sw, sh);
+	}
 	this.sprites = [];
-	for(var x = 0; x < this.lenght; x++) {
+	for(var x = 0; x < this.length; x++) {
 		this.sprites[x] = [];
 		for(var y = 0; y < this.height / sh; y++) {
-			this.sprites[x][y] = new Sprite(image, x * sw, y * sh, sw, sh);
+			this.sprites[x][y] = this.getSprite(x, y);
 		}
 	}
 }

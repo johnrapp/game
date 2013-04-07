@@ -2,7 +2,7 @@ var Player = Mob.extend({
 	init: function(x, y) {
 		this._super(x, y, 50, 50, TEAM_PLAYER, 200, 10, 1000);
 		this.weapon = new Rifle(this);
-		this.spriteSheet = new SpriteSheet(images[0], 50, 50);
+		this.spriteSheet = new SpriteSheet(images[PLAYER_IMAGE], 50, 50);
 	},
 	update: function(level, delta) {
 		this._super(level, delta);
@@ -41,8 +41,8 @@ var Player = Mob.extend({
 	},
 	render : function(ctx) {
 		var render = this.renderPos(this.pos, level);
-		debug(Math.floor(this.ticks / 20 % 16));
-		this.spriteSheet.sprites[Math.floor(this.ticks / 10 % 16)][0].draw(ctx, render.x, render.y);
+		this.spriteSheet.sprites[Math.floor(this.ticks / 20) % this.spriteSheet.length][0].draw(ctx, render.x, render.y);
+		this.spriteSheet.sprites[Math.floor(this.ticks / 2) % 2][1].draw(ctx, render.x, render.y);
 		//rect(ctx, render.x, render.y, this.pos.w, this.pos.h, '#222');
 	},
 	finalMove: function(level, xa, ya) {
