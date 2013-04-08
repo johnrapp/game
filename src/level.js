@@ -12,7 +12,7 @@ var Level = Class.extend({
 		this.levelCanvas.move(this.xScroll, this.yScroll);
 		this.player = this.addEntity(new Player(this.width / 2, this.height / 2));
 
-		var amount = 5;
+		var amount = 1;
 		var distance = 500;
 		for(var i = 0; i < amount; i ++) {
 			var angle = i * ((Math.PI * 2) / amount);
@@ -25,7 +25,7 @@ var Level = Class.extend({
 		this.addEntity(new Entity(0, this.height / 2, 0, this.height, TEAM_NEUTRAL));
 
 		var round = false;
-		var amount = 10;
+		amount = 10;
 		for(var x = 0; x < amount; x++) {
 			round = !round;
 			for(var y = 0; y < amount; y++) {

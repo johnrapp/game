@@ -1,6 +1,6 @@
 var dir = 'res/'
-var sources = ['oldplayer.png'], images = [];
-var PLAYER_IMAGE = 0;
+var sources = ['player.png', 'zombie.png'], images = [];
+var PLAYER_IMAGE = 0, ZOMBIE_IMAGE = 1;
 
 $(document).ready(function() {
 	for(var i in sources) {
@@ -18,7 +18,7 @@ var imageLoaded = function() {
 	}
 }
 
-var SpriteSheet = function(image, sw, sh) {
+var Spritesheet = function(image, sw, sh) {
 	var image = image;
 	var sw = sw;
 	var sh = sh;
@@ -27,11 +27,12 @@ var SpriteSheet = function(image, sw, sh) {
 	this.getSprite = function(x, y) {
 		return new Sprite(image, x * sw, y * sh, sw, sh);
 	}
+	// y and x order inverted. Feels better considering how the spritesheets are drawn
 	this.sprites = [];
-	for(var x = 0; x < this.length; x++) {
-		this.sprites[x] = [];
-		for(var y = 0; y < this.height / sh; y++) {
-			this.sprites[x][y] = this.getSprite(x, y);
+	for(var y = 0; y < this.height; y++) {
+		this.sprites[y] = [];
+		for(var x = 0; x < this.length; x++) {
+			this.sprites[y][x] = this.getSprite(x, y);
 		}
 	}
 }

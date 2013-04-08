@@ -4,12 +4,11 @@ var Shotgun = Weapon.extend({
 		this._super(owner, 0.5, 50);
 		this.spread = .4;
 	},
-	fire: function(level) {
-		this._super(level);
-		var angle = this.getBulletDirection(level);
+	fire: function(level, angle) {
+		this._super(level, angle);
 		for(var i = 0; i < this.bulletAmount; i++) {
-			level.addEntity(this.generateBullet(Math.cos(this.applyDirectionNoise(angle, this.spread)),
-			 Math.sin(this.applyDirectionNoise(angle, this.spread))));
+			var spreadAngle = this.applyDirectionNoise(angle, this.spread);
+			level.addEntity(this.generateBullet(Math.cos(spreadAngle), Math.sin(spreadAngle)));
 		}
 		this.applyRecoil(Math.cos(angle), Math.sin(angle));
 	},

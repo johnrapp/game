@@ -9,19 +9,28 @@ var Entity = Class.extend({
 		this.removed = false;
 		this.xd = 0;
 		this.yd = 0;
+		this.rotation = 0;
+		this.sheet = 
 	},
 	update: function(level, delta) {
 		this.ticks++;
 	},
 	render: function(ctx, level) {
 		var render = this.renderPos(this.pos, level);
-		rect(ctx, render.x, render.y, this.pos.w, this.pos.h, '#222');
+		rect(ctx, render.x, render.y, render.w, render.h, alphaColor(255, 0, 0, 0.5));
+		ctx.save(); 
+		ctx.translate(this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll);
+		ctx.rotate(Math.PI / 2 - this.rotation);
+		this.getSprite().draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
+		ctx.restore();
+	},
+	getSprite: function() {
 	},
 	renderPos: function(pos, level) {
-		return new Vector(pos.left() + level.xScroll, level.height - pos.y - pos.h / 2 + level.yScroll, pos.w, pos.h);
+		return new Vector(pos.x - pos.w / 2 + level.xScroll, level.height - pos.y - pos.h / 2 + level.yScroll, pos.w, pos.h);
 	},
 	getBB: function() {
-		return new BB(this, this.pos.left(), this.pos.top(), this.pos.right(), this.pos.bottom());
+		return new BB(this, this.pos.x - this.pos.w / 2 , this.pos.y - this.pos.h / 2, this.pos.x + this.pos.w / 2 , this.pos.y + this.pos.h / 2);
 	},
 	remove: function() {
 		this.removed = true;

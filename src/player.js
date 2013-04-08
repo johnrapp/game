@@ -1,14 +1,17 @@
 var Player = Mob.extend({
 	init: function(x, y) {
-		this._super(x, y, 50, 50, TEAM_PLAYER, 200, 10, 1000);
+		this._super(x, y, 45, 45, TEAM_PLAYER, 200, 10, 1000);
 		this.weapon = new Rifle(this);
-		this.spriteSheet = new SpriteSheet(images[PLAYER_IMAGE], 50, 50);
+		this.sheet = new Spritesheet(images[PLAYER_IMAGE], 50, 50);
+		this.legRotation = 0;
+		this.moving = false;
 	},
 	update: function(level, delta) {
 		this._super(level, delta);
 		var xa = 0;
 		var ya = 0;
 		var speed = this.speed;
+		this.moving = false;
 		if(keyDown(W)) ya++;
 		if(keyDown(A)) xa--;
 		if(keyDown(S)) ya--;
@@ -18,7 +21,9 @@ var Player = Mob.extend({
 			var sqrt = Math.sqrt(xa * xa + ya * ya);
 			this.xd += xa * (speed / sqrt);
 			this.yd += ya * (speed / sqrt);
+			this.moving = true;
 		}
+		this.legRotation = Math.atan2(this.xd, this.yd);
 		if (this.freezeTime > 0) {
 			this.move(level, this.xBump, this.yBump, delta);
 		} else {
@@ -34,16 +39,23 @@ var Player = Mob.extend({
 			this.weapon = new Shotgun(this);
 		}
 
+		this.rotation = Math.atan2(mouse.y - this.pos.y + level.yScroll, mouse.x - (this.pos.x + level.xScroll));
 		this.weapon.update(delta);
 		if(mousedown && this.weapon.readyToFire()) {
-			this.weapon.fire(level);
+			this.weapon.fire(level, this.rotation);
 		}
 	},
-	render : function(ctx) {
+	render : function(ctx, level) {
 		var render = this.renderPos(this.pos, level);
-		this.spriteSheet.sprites[Math.floor(this.ticks / 5) % this.spriteSheet.length][0].draw(ctx, render.x, render.y);
-		//this.spriteSheet.sprites[Math.floor(this.ticks / 2) % 2][1].draw(ctx, render.x, render.y);
-		//rect(ctx, render.x, render.y, this.pos.w, this.pos.h, '#222');
+		rect(ctx, render.x, render.y, render.w, render.h, alphaColor(255, 0, 0, 0.5));
+		ctx.save(); 
+		ctx.translate(this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll);
+		ctx.rotate(this.legRotation);
+		if(this.moving)
+			this.sheet.sprites[0][Math.floor(this.ticks / 10) % this.sheet.length].draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
+		ctx.rotate(Math.PI / 2 - this.rotation - this.legRotation);
+		this.sheet.sprites[1][0].draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
+		ctx.restore();
 	},
 	finalMove: function(level, xa, ya) {
 		this._super(level, xa, ya);
@@ -78,6 +90,7 @@ var Player = Mob.extend({
 	hurt: function(source, damage) {
 		if(!(source instanceof HostileMob && this.hurtTime > 0)) {
 			this.health -= damage;
+			debug(this.health);
 			if (this.health <= 0)
 				this.die();
 			var dist = source.pos.dist(this.pos);

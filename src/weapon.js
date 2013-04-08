@@ -7,11 +7,12 @@ var Weapon = Class.extend({
 	},
 	update: function(delta) {
 		this.shootDelay -= delta;
+		this.reloadDelay -= delta;
 	},
 	readyToFire: function() {
 		return this.shootDelay <= 0;
 	},
-	fire: function(level) {
+	fire: function(level, angle) {
 		this.shootDelay = this.maxShootDelay;
 	},
 	getBulletDirection: function(level) {

@@ -2,9 +2,9 @@ var Rifle = Weapon.extend({
 	init: function(owner) {
 		this._super(owner, 0.1, 20);
 	},
-	fire: function(level) {
-		this._super(level);
-		var angle = this.applyDirectionNoise(this.getBulletDirection(level), .01);
+	fire: function(level, angle) {
+		this._super(level, angle);
+		angle = this.applyDirectionNoise(angle, .01);
 		var xd = Math.cos(angle);
 		var yd = Math.sin(angle);
 		level.addEntity(this.generateBullet(xd, yd));

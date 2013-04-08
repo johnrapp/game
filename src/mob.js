@@ -34,15 +34,15 @@ var Mob = Entity.extend({
 		this.remove();
 	},
 	render: function(ctx, level) {
-		if(this.hurtTime <= 0) {
+		//if(this.hurtTime <= 0) {
 			this._super(ctx, level);
-		} else {
+		/*} else {
 			var modif = 4;
 			var perc = (this.hurtTime / this.damageHurtTime);
 			var render = this.renderPos(new Vector(this.pos.x, this.pos.y, this.pos.w + perc * modif, this.pos.h + perc * modif), level);
 			rect(ctx, render.x, render.y, render.w, render.h, '#222');
 			rect(ctx, render.x, render.y, render.w, render.h, alphaColor(255, 0, 0, perc));
 			return render;
-		}
+		}*/
 	}
 });
