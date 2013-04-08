@@ -41,8 +41,8 @@ var Player = Mob.extend({
 	},
 	render : function(ctx) {
 		var render = this.renderPos(this.pos, level);
-		this.spriteSheet.sprites[Math.floor(this.ticks / 20) % this.spriteSheet.length][0].draw(ctx, render.x, render.y);
-		this.spriteSheet.sprites[Math.floor(this.ticks / 2) % 2][1].draw(ctx, render.x, render.y);
+		this.spriteSheet.sprites[Math.floor(this.ticks / 5) % this.spriteSheet.length][0].draw(ctx, render.x, render.y);
+		//this.spriteSheet.sprites[Math.floor(this.ticks / 2) % 2][1].draw(ctx, render.x, render.y);
 		//rect(ctx, render.x, render.y, this.pos.w, this.pos.h, '#222');
 	},
 	finalMove: function(level, xa, ya) {

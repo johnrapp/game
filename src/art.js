@@ -1,5 +1,5 @@
 var dir = 'res/'
-var sources = ['player.png'], images = [];
+var sources = ['oldplayer.png'], images = [];
 var PLAYER_IMAGE = 0;
 
 $(document).ready(function() {
