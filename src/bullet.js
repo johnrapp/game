@@ -16,6 +16,9 @@ var Bullet = Mob.extend({
 	render: function(ctx, level) {
 		circle(ctx, this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll, this.pos.w , this.color);
 	},
+	collidesWith: function(other) {
+		return other.team != this.team;
+	},
 	collide: function(other, xa, ya) {
 		if(this.isEnemyOf(other)) {
 			other.hurt(this, this.damage);

@@ -10,21 +10,13 @@ var Entity = Class.extend({
 		this.xd = 0;
 		this.yd = 0;
 		this.rotation = 0;
-		this.sheet = 
 	},
 	update: function(level, delta) {
 		this.ticks++;
 	},
 	render: function(ctx, level) {
 		var render = this.renderPos(this.pos, level);
-		rect(ctx, render.x, render.y, render.w, render.h, alphaColor(255, 0, 0, 0.5));
-		ctx.save(); 
-		ctx.translate(this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll);
-		ctx.rotate(Math.PI / 2 - this.rotation);
-		this.getSprite().draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
-		ctx.restore();
-	},
-	getSprite: function() {
+		rect(ctx, render.x, render.y, render.w, render.h, '#000');
 	},
 	renderPos: function(pos, level) {
 		return new Vector(pos.x - pos.w / 2 + level.xScroll, level.height - pos.y - pos.h / 2 + level.yScroll, pos.w, pos.h);
@@ -114,7 +106,7 @@ var Entity = Class.extend({
 		this.pos.y += ya;
 	},
 	collidesWith: function(other) {
-		return other.team != this.team;
+		return true;
 	},
 	isEnemyOf: function(other) {
 		return this.team != other.team && other.team != TEAM_NEUTRAL;

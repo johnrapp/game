@@ -34,15 +34,16 @@ var Mob = Entity.extend({
 		this.remove();
 	},
 	render: function(ctx, level) {
-		//if(this.hurtTime <= 0) {
-			this._super(ctx, level);
-		/*} else {
-			var modif = 4;
-			var perc = (this.hurtTime / this.damageHurtTime);
-			var render = this.renderPos(new Vector(this.pos.x, this.pos.y, this.pos.w + perc * modif, this.pos.h + perc * modif), level);
-			rect(ctx, render.x, render.y, render.w, render.h, '#222');
-			rect(ctx, render.x, render.y, render.w, render.h, alphaColor(255, 0, 0, perc));
-			return render;
-		}*/
+		ctx.save(); 
+		ctx.translate(this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll);
+		ctx.rotate(Math.PI / 2 - this.rotation);
+		this.getSprite().draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
+		if(this.hurtTime > 0) {
+			ctx.globalCompositeOperation = 'source-atop';
+			rect(ctx, -this.pos.w / 2, -this.pos.h / 2, this.pos.w, this.pos.h, alphaColor(255, 0, 0, this.hurtTime / this.damageHurtTime));
+		}
+		ctx.restore();
+	},
+	getSprite: function() {
 	}
 });
