@@ -1,6 +1,18 @@
 var dir = 'res/'
 var sources = ['player.png', 'zombie.png'], images = [];
-var PLAYER_IMAGE = 0, ZOMBIE_IMAGE = 1;
+
+var Art = new function() {
+	this.imagesLoaded = function() {
+		this.player = new createSheet(images[0], 50, 50);
+		this.zombie = new createSheet(images[1], 50, 50);
+	}
+}
+
+var playerImage, zombieImage;
+function everythingLoaded() {
+	Art.imagesLoaded();
+	start();
+}
 
 $(document).ready(function() {
 	for(var i in sources) {
@@ -11,38 +23,34 @@ $(document).ready(function() {
 	}
 });
 
+
 var loadedImages = 0;
 var imageLoaded = function() {
 	if(++loadedImages >= images.length) {
-		start();
+		everythingLoaded();
 	}
 }
 
-var Spritesheet = function(image, sw, sh) {
-	var image = image;
-	var sw = sw;
-	var sh = sh;
-	this.length = image.width / sw;
-	this.height = image.height / sh;
-	this.getSprite = function(x, y) {
-		return new Sprite(image, x * sw, y * sh, sw, sh);
-	}
+function createSheet(image, sw, sh) {
+	var sprites = [];
 	// y and x order inverted. Feels better considering how the spritesheets are drawn
-	this.sprites = [];
-	for(var y = 0; y < this.height; y++) {
-		this.sprites[y] = [];
-		for(var x = 0; x < this.length; x++) {
-			this.sprites[y][x] = this.getSprite(x, y);
+	for(var y = 0; y < image.height / sh; y++) {
+		sprites[y] = [];
+		for(var x = 0; x < image.width / sw; x++) {
+			sprites[y][x] = new Sprite(image, x * sw, y * sh, sw, sh);;
 		}
 	}
+	return sprites;
 }
 
+var spriteSheet = function() {
+	this[0] = 4;
+};
+spriteSheet.prototype = new Array;
+
+//alert((new spriteSheet())[0]);
+
 var Sprite = function(image, x, y, w ,h) {
-	var image = image;
-	var x = x;
-	var y = y;
-	var w = w;
-	var h = h;
 	this.draw = function(ctx, dx, dy) {
 		ctx.drawImage(image, x, y, w, h, dx, dy, w, h);
 	}

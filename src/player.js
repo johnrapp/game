@@ -1,10 +1,11 @@
 var Player = Mob.extend({
 	init: function(x, y) {
-		this._super(x, y, 50, 50, TEAM_PLAYER, 200, 1000, 1000);
+		this._super(x, y, 40, 40, TEAM_PLAYER, 200, 1000, 1000);
 		this.weapon = new Rifle(this);
-		this.sheet = new Spritesheet(images[PLAYER_IMAGE], 50, 50);
 		this.legRotation = 0;
 		this.moving = false;
+		this.spriteWidth = 50;
+		this.spriteHeight = 50;
 	},
 	update: function(level, delta) {
 		this._super(level, delta);
@@ -49,16 +50,13 @@ var Player = Mob.extend({
 		var render = this.renderPos(this.pos, level);
 		ctx.save(); 
 		ctx.translate(this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll);
+		//rect(ctx, -this.pos.w / 2, -this.pos.h / 2, render.w, render.h, alphaColor(255, 0, 0, .3));
 		ctx.rotate(this.legRotation);
-		if(this.moving)
-			this.sheet.sprites[0][Math.floor(this.ticks / 10) % this.sheet.length].draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
-		ctx.rotate(Math.PI / 2 - this.rotation - this.legRotation);
-		this.sheet.sprites[1][0].draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
-		if(this.hurtTime > 0) {
-			ctx.rotate(-Math.PI / 2 + this.rotation);
-			ctx.globalCompositeOperation = 'source-atop';
-			rect(ctx, -this.pos.w / 2, -this.pos.h / 2, render.w, render.h, alphaColor(255, 0, 0, this.hurtTime / this.damageHurtTime));
+		if(this.moving) {
+			Art.player[0][Math.floor(this.ticks / 10) % Art.player[0].length].draw(ctx, -this.spriteWidth / 2, -this.spriteHeight / 2);
 		}
+		ctx.rotate(-this.rotation - this.legRotation);
+		Art.player[1][0].draw(ctx, -this.spriteWidth / 2, -this.spriteHeight / 2);
 		ctx.restore();
 	},
 	finalMove: function(level, xa, ya) {

@@ -36,12 +36,9 @@ var Mob = Entity.extend({
 	render: function(ctx, level) {
 		ctx.save(); 
 		ctx.translate(this.pos.x + level.xScroll, level.height - this.pos.y + level.yScroll);
+		//rect(ctx, -this.pos.w / 2, -this.pos.h / 2, this.pos.w, this.pos.h, alphaColor(255, 0, 0, .3));
 		ctx.rotate(Math.PI / 2 - this.rotation);
-		this.getSprite().draw(ctx, -this.pos.w / 2, -this.pos.h / 2);
-		if(this.hurtTime > 0) {
-			ctx.globalCompositeOperation = 'source-atop';
-			rect(ctx, -this.pos.w / 2, -this.pos.h / 2, this.pos.w, this.pos.h, alphaColor(255, 0, 0, this.hurtTime / this.damageHurtTime));
-		}
+		this.getSprite().draw(ctx, -50 / 2, -50 / 2);
 		ctx.restore();
 	},
 	getSprite: function() {
