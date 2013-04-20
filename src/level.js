@@ -4,15 +4,15 @@ var Level = Class.extend({
 		this.height = h;
 		this.entities = [];
 	},
-	prepare: function() {
-		this.levelCanvas = canvases[LEVEL_CANVAS];
-		this.entityCanvas = canvases[ENTITY_CANVAS];
+	prepare: function(levelCanvas, terrainCanvas, entityCanvas) {
+		this.levelCanvas = levelCanvas;
+		this.entityCanvas =  entityCanvas;
 		this.xScroll = (width - this.width) / 2;
 		this.yScroll = (height - this.height) / 2;
 		this.levelCanvas.move(this.xScroll, this.yScroll);
 		this.player = this.addEntity(new Player(this.width / 2, this.height / 2));
 
-		var amount = 0;
+		var amount = 5;
 		var distance = 500;
 		for(var i = 0; i < amount; i ++) {
 			var angle = i * ((Math.PI * 2) / amount);

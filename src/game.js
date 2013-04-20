@@ -10,7 +10,7 @@ $(document).ready(function() {
 });
 
 function startGame() {
-	level.prepare();
+	level.prepare(canvases[0], null, canvases[1]);
 }
 
 function update(delta) {
