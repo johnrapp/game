@@ -18,9 +18,6 @@ var HostileMob = Mob.extend({
         this.yd *= 0.4;
         this.xBump *= 0.8;
         this.yBump *= 0.8;
-        this.move(level, this.xd, this.yd, delta);
-        this.xd *= 0.4;
-        this.yd *= 0.4;
 	},
 	getSprite: function() {
 		return Art.zombie[0][Math.floor(this.ticks / 10) % Art.zombie[0].length];
