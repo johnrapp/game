@@ -18,8 +18,8 @@ var Weapon = Class.extend({
 	getBulletDirection: function(level) {
 		return Math.atan2(mouse.y - this.owner.pos.y + level.yScroll, mouse.x - (this.owner.pos.x + level.xScroll));
 	},
-	applyDirectionNoise: function(angle, strenght) {
-		return angle + (Math.random() * 2 - 1) * strenght;
+	applyDirectionNoise: function(angle, strength) {
+		return angle + (Math.random() * 2 - 1) * strength;
 	},
 	applyRecoil: function(xd, yd) {
 		this.owner.xBump -= xd * this.recoil;
